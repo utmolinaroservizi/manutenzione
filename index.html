@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Molinaro — Manutenzione parco mezzi</title>
-<link rel="icon" type="image/png" href="assets/molinaro-icon.png">
+<link rel="icon" type="image/png" href="assets/logo-molinaro.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.6.0/dist/tabler-icons.min.css">
@@ -16,20 +16,18 @@
   --warn:#9A6C1E;--warnL:#FFF3D6;--warnLL:#FFFBF0;
   --border:#e3e6df;--border2:#cdd3c8;
   --radius:10px;--radius-lg:14px;
-  --font:'DM Sans',system-ui,sans-serif;--font-display:'DM Sans',system-ui,sans-serif;
+  --font:'DM Sans',system-ui,sans-serif;
   --shadow:0 1px 3px rgba(40,60,40,0.04),0 4px 14px rgba(40,60,40,0.05);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
 ::selection{background:var(--accentL);color:var(--accent)}
 input,select,textarea,button{font-family:var(--font)}
-
-/* LOGIN */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden}
-.login-bg{position:absolute;inset:0;background:radial-gradient(circle at 20% 20%, #4DAB3D 0%, transparent 55%),radial-gradient(circle at 85% 90%, #2D6A21 0%, transparent 50%);opacity:.07;pointer-events:none}
+.login-bg{position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,#4DAB3D 0%,transparent 55%),radial-gradient(circle at 85% 90%,#2D6A21 0%,transparent 50%);opacity:.07;pointer-events:none}
 .login-pattern{position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(45deg,transparent,transparent 38px,#4DAB3D 38px,#4DAB3D 39px)}
 .login-card{position:relative;background:var(--bg3);border:1px solid var(--border);border-radius:18px;padding:44px 44px 36px;width:420px;max-width:92vw;box-shadow:0 1px 3px rgba(40,60,40,0.04),0 12px 40px rgba(40,60,40,0.08)}
-.login-card::before{content:"";position:absolute;top:0;left:24px;right:24px;height:3px;background:linear-gradient(90deg,var(--accent) 0%,var(--accent2) 100%);border-radius:0 0 3px 3px}
+.login-card::before{content:"";position:absolute;top:0;left:24px;right:24px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:0 0 3px 3px}
 .login-logo{text-align:center;margin-bottom:28px}
 .login-logo .brandmark{display:block;width:240px;max-width:100%;height:auto;margin:0 auto 14px}
 .login-logo .tagline{font-size:11px;color:var(--tx3);letter-spacing:2.5px;text-transform:uppercase;font-weight:500}
@@ -43,10 +41,12 @@ input,select,textarea,button{font-family:var(--font)}
 .login-btn:active{transform:scale(.99)}
 .login-err{font-size:12px;color:var(--danger);text-align:center;margin-top:12px;min-height:18px}
 .login-foot{text-align:center;margin-top:24px;font-size:11px;color:var(--tx3)}
-
-/* APP SHELL */
+.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:12px}
+.loading-overlay .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+.loading-overlay p{font-size:13px;color:var(--tx2)}
+@keyframes spin{to{transform:rotate(360deg)}}
 .app-wrap{display:none;min-height:100vh}
-.app-topbar{display:flex;align-items:center;gap:14px;padding:14px 24px;background:var(--bg3);border-bottom:1px solid var(--border);box-shadow:0 1px 0 rgba(40,60,40,0.02)}
+.app-topbar{display:flex;align-items:center;gap:14px;padding:14px 24px;background:var(--bg3);border-bottom:1px solid var(--border);box-shadow:0 1px 0 rgba(40,60,40,0.02);flex-wrap:wrap}
 .app-topbar .logo{display:flex;align-items:center;gap:12px;color:var(--tx)}
 .app-topbar .logo img{height:34px;width:auto;display:block}
 .app-topbar .logo .divider{width:1px;height:26px;background:var(--border)}
@@ -58,17 +58,15 @@ input,select,textarea,button{font-family:var(--font)}
 .app-topbar .user-pill i{font-size:16px;color:var(--accent)}
 .logout-btn{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 12px;font-size:12px;color:var(--tx2);cursor:pointer;display:flex;align-items:center;gap:4px}
 .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
-
-/* ALERTS BAR */
+.sync-pill{display:flex;align-items:center;gap:4px;font-size:11px;padding:4px 10px;border-radius:12px;background:var(--accentLL);color:var(--accent)}
+.sync-pill.syncing{background:var(--warnLL);color:var(--warn)}
+.sync-pill i{font-size:13px}
 .alerts-bar{padding:8px 24px;background:var(--bg);display:none;overflow-x:auto;white-space:nowrap}
 .alert-chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius);font-size:12px;margin-right:8px;cursor:pointer;border:1px solid transparent;vertical-align:top;white-space:nowrap;transition:transform .15s}
 .alert-chip:hover{transform:translateY(-1px)}
 .alert-chip.warn{background:var(--warnL);color:var(--warn);border-color:#EDD99B}
 .alert-chip.danger{background:var(--dangerL);color:var(--danger);border-color:#F0C0C0}
-.alert-chip.ok{background:var(--accentLL);color:var(--accent);border-color:#A8D5C0}
 .alert-chip i{font-size:15px}
-
-/* LAYOUT */
 .app-body{display:flex;gap:0;flex:1}
 .panel{width:220px;flex-shrink:0;background:var(--bg3);border-right:1px solid var(--border);padding:16px 0;transition:width .25s,padding .25s;overflow:hidden}
 .panel.collapsed{width:0;padding:0;border:none}
@@ -91,8 +89,6 @@ input,select,textarea,button{font-family:var(--font)}
 .add-row input:focus{outline:none;border-color:var(--accent)}
 .add-row button{width:30px;height:30px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg3);color:var(--accent);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px}
 .add-row button:hover{background:var(--accentLL)}
-
-/* MAIN */
 .main-area{flex:1;padding:20px 24px;min-width:0;overflow-y:auto}
 .card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)}
 .card-head{padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
@@ -102,8 +98,6 @@ input,select,textarea,button{font-family:var(--font)}
 .field label{display:block;font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
 .field input,.field select{padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:12px;background:var(--bg);color:var(--tx)}
 .field input:focus,.field select:focus{outline:none;border-color:var(--accent)}
-
-/* REMINDER SETTINGS */
 .reminder-row{display:flex;align-items:center;gap:8px;padding:10px 20px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);flex-wrap:wrap}
 .reminder-row label{font-size:12px;color:var(--tx2);display:flex;align-items:center;gap:4px}
 .reminder-row label i{font-size:14px;color:var(--warn)}
@@ -111,23 +105,17 @@ input,select,textarea,button{font-family:var(--font)}
 .reminder-row input[type=number]{width:70px}
 .reminder-row select:focus,.reminder-row input:focus{outline:none;border-color:var(--accent)}
 .reminder-hint{font-size:11px;color:var(--tx3);margin-left:4px}
-
-/* TABS */
 .tabs{display:flex;border-bottom:1px solid var(--border)}
 .tab{padding:10px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--tx2);display:flex;align-items:center;gap:5px;transition:color .15s}
 .tab:hover{color:var(--tx)}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
 .tab .cnt{font-size:10px;padding:1px 7px;border-radius:8px;background:var(--bg);color:var(--tx3)}
 .tab.active .cnt{background:var(--accentL);color:var(--accent)}
-
-/* PROGRESS */
 .pbar-wrap{display:flex;align-items:center;gap:10px;padding:12px 20px}
 .pbar-label{font-size:12px;color:var(--tx2)}
 .pbar{flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
 .pbar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .4s}
 .pbar-pct{font-size:13px;font-weight:600;color:var(--accent);min-width:36px;text-align:right}
-
-/* TABLE */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px}
 thead th{padding:9px 12px;text-align:left;font-weight:600;font-size:10px;color:var(--tx3);background:var(--bg);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px}
@@ -142,8 +130,6 @@ tbody tr:hover td{background:var(--bg)}
 .chk-sel.ko{background:var(--dangerLL);color:var(--danger);border-color:#F0C0C0}
 .note-in{width:100%;border:1px solid transparent;border-radius:var(--radius);padding:5px 8px;font-size:12px;background:transparent;color:var(--tx);font-family:var(--font)}
 .note-in:focus{border-color:var(--border);background:var(--bg3);outline:none}
-
-/* FOOTER */
 .foot{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--border);align-items:center;flex-wrap:wrap}
 .foot-info{flex:1;font-size:11px;color:var(--tx3)}
 .btn{display:inline-flex;align-items:center;gap:5px;font-size:13px;padding:8px 16px;border-radius:var(--radius);cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--tx);font-weight:500;transition:all .15s}
@@ -151,15 +137,9 @@ tbody tr:hover td{background:var(--bg)}
 .btn:active{transform:scale(.98)}
 .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
 .btn.primary:hover{background:var(--accent2)}
-.btn.green{background:var(--accentLL);color:var(--accent);border-color:var(--accentL)}
-.btn.green:hover{background:var(--accentL)}
-
-/* EMPTY */
 .empty-st{padding:3rem;text-align:center;color:var(--tx3)}
 .empty-st i{font-size:40px;opacity:.2}
 .empty-st p{margin-top:.75rem;font-size:14px}
-
-/* HISTORY CARDS */
 .hist-card{border:1px solid var(--border);border-radius:var(--radius);margin:8px 20px;overflow:hidden;cursor:pointer;transition:border-color .15s,box-shadow .15s}
 .hist-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
 .hist-top{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg)}
@@ -175,8 +155,6 @@ tbody tr:hover td{background:var(--bg)}
 .hist-del{font-size:12px;margin-left:auto;color:var(--danger);opacity:0;cursor:pointer;padding:2px 8px;border-radius:var(--radius)}
 .hist-card:hover .hist-del{opacity:.5}
 .hist-card:hover .hist-del:hover{opacity:1;background:var(--dangerL)}
-
-/* TIMELINE */
 .tl-head{padding:14px 20px;font-size:12px;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
 .tl-wrap{padding:4px 24px 16px 24px}
 .tl-line{position:relative;padding-left:28px;padding-bottom:20px;border-left:2px solid var(--border);margin-left:6px}
@@ -186,134 +164,71 @@ tbody tr:hover td{background:var(--bg)}
 .tl-info{font-size:12px;color:var(--tx2);margin-top:3px;display:flex;gap:14px;flex-wrap:wrap}
 .tl-info span{display:flex;align-items:center;gap:4px}
 .tl-info i{font-size:13px}
-
-/* TOAST */
 .toast{position:fixed;top:20px;right:20px;padding:10px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:999;opacity:0;transform:translateY(-10px);transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:6px}
 .toast.show{opacity:1;transform:translateY(0)}
 .toast.ok{background:var(--accent);color:#fff}
 .toast.warn-toast{background:var(--warn);color:#fff}
-
-/* RESPONSIVE */
-@media(max-width:800px){
-  .panel{width:180px}
-  .main-area{padding:12px}
-  .app-topbar{padding:12px 16px}
-  .fields{flex-direction:column}
-}
-@media(max-width:600px){
-  .panel{position:absolute;z-index:10;left:0;top:0;bottom:0;width:240px;box-shadow:4px 0 20px rgba(0,0,0,.08)}
-  .panel.collapsed{width:0}
-  .app-body{position:relative}
-}
+@media(max-width:800px){.panel{width:180px}.main-area{padding:12px}.app-topbar{padding:12px 16px}.fields{flex-direction:column}}
+@media(max-width:600px){.panel{position:absolute;z-index:10;left:0;top:0;bottom:0;width:240px;box-shadow:4px 0 20px rgba(0,0,0,.08)}.panel.collapsed{width:0}.app-body{position:relative}}
 </style>
 </head>
 <body>
-
-<!-- LOGIN SCREEN -->
+<div class="loading-overlay" id="loadingOverlay" style="display:none"><div class="spinner"></div><p>Caricamento dati...</p></div>
 <div class="login-wrap" id="loginScreen">
-  <div class="login-bg"></div>
-  <div class="login-pattern"></div>
+  <div class="login-bg"></div><div class="login-pattern"></div>
   <div class="login-card">
     <div class="login-logo">
-      <img class="brandmark" src="assets/molinaro-logo.png" alt="Molinaro">
-      <div class="tagline">ESCo · Energy Service Company</div>
+      <img class="brandmark" src="assets/logo-molinaro.jpg" alt="Molinaro">
+      <div class="tagline">ESCo &middot; Energy Service Company</div>
       <div class="sublabel">Sistema di gestione manutenzione</div>
     </div>
-    <div class="login-field">
-      <label>Nome utente</label>
-      <input type="text" id="loginUser" placeholder="Inserisci nome utente" autocomplete="off" spellcheck="false">
-    </div>
-    <div class="login-field">
-      <label>Password</label>
-      <input type="password" id="loginPass" placeholder="Inserisci password">
-    </div>
+    <div class="login-field"><label>Nome utente</label><input type="text" id="loginUser" placeholder="Inserisci nome utente" autocomplete="off" spellcheck="false"></div>
+    <div class="login-field"><label>Password</label><input type="password" id="loginPass" placeholder="Inserisci password"></div>
     <button class="login-btn" onclick="doLogin()">Accedi</button>
     <div class="login-err" id="loginErr"></div>
     <div class="login-foot">Accesso riservato al personale autorizzato</div>
   </div>
 </div>
-
-<!-- APP -->
 <div class="app-wrap" id="appWrap">
   <div class="app-topbar">
-    <div class="logo">
-      <img src="assets/molinaro-logo.png" alt="Molinaro">
-      <div class="divider"></div>
-      <div class="module">
-        <span class="m-title">Manutenzione</span>
-        <span class="m-sub">Gestione parco mezzi</span>
-      </div>
-    </div>
+    <div class="logo"><img src="assets/logo-molinaro.jpg" alt="Molinaro"><div class="divider"></div><div class="module"><span class="m-title">Manutenzione</span><span class="m-sub">Gestione parco mezzi</span></div></div>
     <div class="spacer"></div>
+    <div class="sync-pill" id="syncPill"><i class="ti ti-cloud-check"></i> <span id="syncText">Sincronizzato</span></div>
     <div class="user-pill"><i class="ti ti-user-circle"></i> <span id="userLabel"></span></div>
     <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout" style="font-size:14px"></i> Esci</button>
   </div>
-
   <div class="alerts-bar" id="alertsBar"></div>
-
   <div class="app-body">
     <div class="panel" id="panel">
       <div class="panel-section">
         <div class="panel-title">Parco mezzi <span id="vcnt">0</span></div>
         <div id="vlist"></div>
-        <div class="add-row">
-          <input id="newinp" placeholder="Nuovo mezzo..." maxlength="30" onkeydown="if(event.key==='Enter')addV()">
-          <button onclick="addV()" title="Aggiungi"><i class="ti ti-plus"></i></button>
-        </div>
+        <div class="add-row"><input id="newinp" placeholder="Nuovo mezzo..." maxlength="30" onkeydown="if(event.key==='Enter')addV()"><button onclick="addV()" title="Aggiungi"><i class="ti ti-plus"></i></button></div>
       </div>
-      <div class="panel-section" style="margin-top:auto">
-        <button class="btn" style="width:100%;justify-content:center;font-size:12px" onclick="togglePanel()">
-          <i class="ti ti-layout-sidebar-left-collapse" style="font-size:14px"></i> Chiudi
-        </button>
-      </div>
+      <div class="panel-section" style="margin-top:auto"><button class="btn" style="width:100%;justify-content:center;font-size:12px" onclick="togglePanel()"><i class="ti ti-layout-sidebar-left-collapse" style="font-size:14px"></i> Chiudi</button></div>
     </div>
-
     <div class="main-area">
       <div class="card" id="maincard">
-        <div class="empty-st" id="emptystate">
-          <i class="ti ti-steering-wheel"></i>
-          <p>Seleziona un mezzo dal pannello per iniziare</p>
-        </div>
+        <div class="empty-st" id="emptystate"><i class="ti ti-steering-wheel"></i><p>Seleziona un mezzo dal pannello per iniziare</p></div>
         <div id="sheet" style="display:none"></div>
       </div>
     </div>
   </div>
 </div>
-
 <div class="toast" id="toast"><i class="ti ti-check"></i> <span id="toastText">Salvato</span></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-/* ---------- AUTH ---------- */
+firebase.initializeApp({apiKey:"AIzaSyD6EApE75D5rDjvct3hJbIrl0DRx291sAQ",authDomain:"manutenzione-molinaro.firebaseapp.com",projectId:"manutenzione-molinaro",storageBucket:"manutenzione-molinaro.firebasestorage.app",messagingSenderId:"1091373320682",appId:"1:1091373320682:web:348dfebedecaad7c43ca93"});
+const db=firebase.firestore();
+
 const CRED={user:'manutenzione2026',pass:'Molinaro2026'};
-
-function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value;
-  if(u===CRED.user&&p===CRED.pass){
-    sessionStorage.setItem('mol_auth','1');
-    showApp();
-  }else{
-    document.getElementById('loginErr').textContent='Credenziali non valide. Riprova.';
-    document.getElementById('loginPass').value='';
-  }
-}
+function doLogin(){const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value;if(u===CRED.user&&p===CRED.pass){sessionStorage.setItem('mol_auth','1');showApp()}else{document.getElementById('loginErr').textContent='Credenziali non valide. Riprova.';document.getElementById('loginPass').value=''}}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!sessionStorage.getItem('mol_auth'))doLogin()});
-
 function doLogout(){sessionStorage.removeItem('mol_auth');location.reload()}
-
-function showApp(){
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('appWrap').style.display='flex';
-  document.getElementById('appWrap').style.flexDirection='column';
-  document.getElementById('userLabel').textContent=CRED.user;
-  boot();
-}
-
+function showApp(){document.getElementById('loginScreen').style.display='none';const aw=document.getElementById('appWrap');aw.style.display='flex';aw.style.flexDirection='column';document.getElementById('userLabel').textContent=CRED.user;boot()}
 if(sessionStorage.getItem('mol_auth'))showApp();
-
-/* ---------- DATA ---------- */
-const LS=k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch{return null}};
-const SS=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
 
 const CK_M=["Olio motore tipo","Filtro olio","Filtro aria","Filtro carburante","Filtro antipolline","Olio cambio","Candele"];
 const CK_I=["Olio freni","Anticongelante","Pompa acqua","Cinghia distribuzione","Cinghia alternatore","Cinghia com. vari"];
@@ -321,257 +236,80 @@ const CK_F=["Past. freni anteriori","Dischi freni anteriori","Past. freni poster
 const CK_A=["Ammortizzatori anteriori","Ammortizzatori posteriori","Frizione","Giunto omocinetico","Ricarica aria condizionata","Pneumatici","Sensore pressione gomme"];
 const CATS=[{n:"Motore e filtri",ic:"ti-engine",ck:CK_M},{n:"Impianto",ic:"ti-droplet",ck:CK_I},{n:"Freni",ic:"ti-circle-minus",ck:CK_F},{n:"Sospensioni e altro",ic:"ti-settings-2",ck:CK_A}];
 const ALL=CATS.flatMap(c=>c.ck);
-
 const DEF_V=["Mitsubishi Fuso","Peugeot Partner","Fiat Panda","Mercedes Atego","Daily Palfinger","Daily 60C15","Eurocargo 180E28","Toyota Hilux","Peugeot Bipper"];
 
-let vehs,curV=null,curTab='form',panelOpen=true,toastTm=null;
+let vehs=[],vehData={},curV=null,curTab='form',panelOpen=true,toastTm=null,saveTimer=null;
 
-const vk=v=>'mol3_d_'+v.replace(/\s+/g,'_');
-const gd=v=>{const d=LS(vk(v));return d||{sessions:[],draft:{date:'',km:'',tech:'',checks:{},notes:{}},reminder:{type:'months',value:6}}};
-const sd=(v,d)=>SS(vk(v),d);
+function docId(v){return v.replace(/[\/\.#\$\[\]]/g,'_')}
+function syncStatus(s){const p=document.getElementById('syncPill'),t=document.getElementById('syncText');if(s==='syncing'){p.className='sync-pill syncing';t.textContent='Salvataggio...'}else{p.className='sync-pill';t.textContent='Sincronizzato'}}
 
-function toast(msg,type){
-  const t=document.getElementById('toast'),tt=document.getElementById('toastText');
-  tt.textContent=msg||'Salvato';
-  t.className='toast '+(type||'ok')+' show';
-  clearTimeout(toastTm);toastTm=setTimeout(()=>t.classList.remove('show'),2200);
+async function loadAllData(){
+  document.getElementById('loadingOverlay').style.display='flex';
+  try{
+    const metaDoc=await db.collection('config').doc('vehicles').get();
+    if(metaDoc.exists&&metaDoc.data().list){vehs=metaDoc.data().list}else{vehs=[...DEF_V];await db.collection('config').doc('vehicles').set({list:vehs})}
+    const snap=await db.collection('vehicles').get();
+    vehData={};snap.forEach(doc=>{vehData[doc.id]=doc.data()});
+  }catch(err){console.error('Errore:',err);toast('Errore connessione','warn-toast')}
+  document.getElementById('loadingOverlay').style.display='none';
 }
+async function saveVehiclesList(){syncStatus('syncing');try{await db.collection('config').doc('vehicles').set({list:vehs})}catch(e){console.error(e)}syncStatus('ok')}
+function saveVehicleData(v){clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{syncStatus('syncing');try{await db.collection('vehicles').doc(docId(v)).set(vehData[docId(v)]||{})}catch(e){console.error(e)}syncStatus('ok')},400)}
+async function saveVehicleDataNow(v){syncStatus('syncing');try{await db.collection('vehicles').doc(docId(v)).set(vehData[docId(v)]||{})}catch(e){console.error(e)}syncStatus('ok')}
+function gd(v){const id=docId(v);if(!vehData[id])vehData[id]={sessions:[],draft:{date:'',km:'',tech:'',checks:{},notes:{}},reminder:{type:'months',value:6}};return vehData[id]}
+function sd(v,data){vehData[docId(v)]=data;saveVehicleData(v)}
 
+function toast(msg,type){const t=document.getElementById('toast'),tt=document.getElementById('toastText');tt.textContent=msg||'Salvato';t.className='toast '+(type||'ok')+' show';clearTimeout(toastTm);toastTm=setTimeout(()=>t.classList.remove('show'),2200)}
 function togglePanel(){panelOpen=!panelOpen;document.getElementById('panel').classList.toggle('collapsed',!panelOpen)}
 
-/* ---------- ALERTS ---------- */
 function checkAlerts(){
-  const bar=document.getElementById('alertsBar');
-  const chips=[];
-  const now=Date.now();
-
-  vehs.forEach(v=>{
-    const data=gd(v);
-    if(!data.sessions||!data.sessions.length)return;
-    const rem=data.reminder||{type:'months',value:6};
-    const last=data.sessions[data.sessions.length-1];
-
-    if(rem.type==='months'&&last.date){
-      const lastDate=new Date(last.date+'T00:00:00');
-      const deadlineMs=lastDate.getTime()+rem.value*30.44*24*3600*1000;
-      const daysLeft=Math.round((deadlineMs-now)/(24*3600*1000));
-
-      if(daysLeft<0){
-        chips.push({v,cls:'danger',icon:'ti-alert-circle',text:v+': tagliando scaduto da '+Math.abs(daysLeft)+' giorni'});
-      }else if(daysLeft<=30){
-        chips.push({v,cls:'warn',icon:'ti-bell',text:v+': tagliando tra '+daysLeft+' giorni'});
-      }
-    }
-
-    if(rem.type==='km'&&last.km){
-      const lastKm=parseInt(last.km);
-      const limitKm=lastKm+parseInt(rem.value);
-      chips.push({v,cls:'warn',icon:'ti-road',text:v+': prossimo tagliando a '+limitKm.toLocaleString('it-IT')+' km (ultimo: '+lastKm.toLocaleString('it-IT')+' km)'});
-    }
+  const bar=document.getElementById('alertsBar'),chips=[],now=Date.now();
+  vehs.forEach(v=>{const data=gd(v);if(!data.sessions||!data.sessions.length)return;const rem=data.reminder||{type:'months',value:6},last=data.sessions[data.sessions.length-1];
+    if(rem.type==='months'&&last.date){const ld=new Date(last.date+'T00:00:00'),dl=ld.getTime()+rem.value*30.44*24*3600*1000,days=Math.round((dl-now)/(24*3600*1000));if(days<0)chips.push({v,cls:'danger',icon:'ti-alert-circle',text:v+': scaduto da '+Math.abs(days)+' gg'});else if(days<=30)chips.push({v,cls:'warn',icon:'ti-bell',text:v+': tagliando tra '+days+' gg'})}
+    if(rem.type==='km'&&last.km){const lk=parseInt(last.km),lim=lk+parseInt(rem.value);chips.push({v,cls:'warn',icon:'ti-road',text:v+': prossimo a '+lim.toLocaleString('it-IT')+' km'})}
   });
-
-  if(chips.length){
-    bar.style.display='block';
-    bar.innerHTML=chips.map(c=>`<span class="alert-chip ${c.cls}" onclick="selV('${c.v.replace(/'/g,"\\'")}')" title="Vai a ${c.v}"><i class="ti ${c.icon}"></i>${c.text}</span>`).join('');
-  }else{
-    bar.style.display='none';
-  }
+  if(chips.length){bar.style.display='block';bar.innerHTML=chips.map(c=>'<span class="alert-chip '+c.cls+'" onclick="selV(\''+c.v.replace(/'/g,"\\'")+'\')" title="Vai a '+c.v+'"><i class="ti '+c.icon+'"></i>'+c.text+'</span>').join('')}else{bar.style.display='none'}
 }
 
-/* ---------- RENDER ---------- */
-function renderV(){
-  SS('mol3_v',vehs);
-  document.getElementById('vcnt').textContent=vehs.length;
-  document.getElementById('vlist').innerHTML=vehs.map((v,i)=>{
-    const d=gd(v),sc=(d.sessions||[]).length;
-    return`<div class="vitem${curV===v?' active':''}" onclick="selV('${v.replace(/'/g,"\\'")}')"><i class="ti ti-truck vic"></i><span class="vname">${v}</span>${sc?`<span class="vbadge">${sc}</span>`:''}<span class="vdel" onclick="event.stopPropagation();delV(${i})"><i class="ti ti-x"></i></span></div>`;
-  }).join('');
-}
+function renderV(){document.getElementById('vcnt').textContent=vehs.length;document.getElementById('vlist').innerHTML=vehs.map((v,i)=>{const d=gd(v),sc=(d.sessions||[]).length;return'<div class="vitem'+(curV===v?' active':'')+'" onclick="selV(\''+v.replace(/'/g,"\\'")+'\')">'+'<i class="ti ti-truck vic"></i><span class="vname">'+v+'</span>'+(sc?'<span class="vbadge">'+sc+'</span>':'')+'<span class="vdel" onclick="event.stopPropagation();delV('+i+')"><i class="ti ti-x"></i></span></div>'}).join('')}
 
-function addV(){const inp=document.getElementById('newinp'),n=inp.value.trim();if(!n||vehs.includes(n))return;vehs.push(n);inp.value='';renderV();selV(n);toast(n+' aggiunto')}
-function delV(i){const v=vehs[i];if(!confirm('Rimuovere '+v+'?'))return;vehs.splice(i,1);try{localStorage.removeItem(vk(v))}catch{};if(curV===v){curV=null;showEmpty()}renderV();checkAlerts()}
+async function addV(){const inp=document.getElementById('newinp'),n=inp.value.trim();if(!n||vehs.includes(n))return;vehs.push(n);inp.value='';await saveVehiclesList();renderV();selV(n);toast(n+' aggiunto')}
+async function delV(i){const v=vehs[i];if(!confirm('Rimuovere '+v+'?'))return;vehs.splice(i,1);try{await db.collection('vehicles').doc(docId(v)).delete()}catch(e){}delete vehData[docId(v)];await saveVehiclesList();if(curV===v){curV=null;showEmpty()}renderV();checkAlerts()}
 function showEmpty(){document.getElementById('emptystate').style.display='';document.getElementById('sheet').style.display='none'}
-
 function selV(v){curV=v;curTab='form';renderV();renderSheet()}
 
 function renderSheet(){
-  document.getElementById('emptystate').style.display='none';
-  const sh=document.getElementById('sheet');sh.style.display='';
-  const data=gd(curV),d=data.draft||{date:'',km:'',tech:'',checks:{},notes:{}},sess=data.sessions||[];
-  const rem=data.reminder||{type:'months',value:6};
-  const done=ALL.filter(c=>d.checks&&d.checks[c]==='ok').length;
-  const pct=ALL.length?Math.round(done/ALL.length*100):0;
-
-  let idx=0;
-  sh.innerHTML=`
-    <div class="card-head">
-      <div class="ch-title"><i class="ti ti-truck"></i>${curV}</div>
-      <div class="fields">
-        <div class="field"><label>Data</label><input type="date" id="fd" value="${d.date||''}" onchange="uMeta()"></div>
-        <div class="field"><label>Km</label><input type="number" id="fk" value="${d.km||''}" placeholder="85000" onchange="uMeta()" style="width:90px"></div>
-        <div class="field"><label>Tecnico</label><input type="text" id="ft" value="${d.tech||''}" placeholder="Nome" onchange="uMeta()" style="width:100px"></div>
-      </div>
-    </div>
-    <div class="reminder-row">
-      <label><i class="ti ti-bell-ringing"></i> Promemoria</label>
-      <select id="remType" onchange="uRem()"><option value="months"${rem.type==='months'?' selected':''}>Ogni N mesi</option><option value="km"${rem.type==='km'?' selected':''}>Ogni N km</option></select>
-      <input type="number" id="remVal" value="${rem.value||6}" min="1" onchange="uRem()">
-      <span class="reminder-hint" id="remHint"></span>
-    </div>
-    <div class="tabs">
-      <div class="tab${curTab==='form'?' active':''}" onclick="swTab('form')"><i class="ti ti-checklist" style="font-size:15px"></i> Controlli</div>
-      <div class="tab${curTab==='history'?' active':''}" onclick="swTab('history')"><i class="ti ti-archive" style="font-size:15px"></i> Storico <span class="cnt">${sess.length}</span></div>
-      <div class="tab${curTab==='timeline'?' active':''}" onclick="swTab('timeline')"><i class="ti ti-calendar-event" style="font-size:15px"></i> Tagliandi</div>
-    </div>
-    ${curTab==='form'?rForm(d,done,pct):''}
-    ${curTab==='history'?rHist(sess):''}
-    ${curTab==='timeline'?rTimeline(sess):''}
-    <div class="foot">
-      <span class="foot-info" id="finfo"></span>
-      ${curTab==='form'?`<button class="btn" onclick="resetD()"><i class="ti ti-refresh"></i> Reset</button><button class="btn primary" onclick="archiveS()"><i class="ti ti-device-floppy"></i> Salva sessione</button>`:''}
-    </div>`;
-
+  document.getElementById('emptystate').style.display='none';const sh=document.getElementById('sheet');sh.style.display='';
+  const data=gd(curV),d=data.draft||{date:'',km:'',tech:'',checks:{},notes:{}},sess=data.sessions||[],rem=data.reminder||{type:'months',value:6};
+  const done=ALL.filter(c=>d.checks&&d.checks[c]==='ok').length,pct=ALL.length?Math.round(done/ALL.length*100):0;
+  sh.innerHTML='<div class="card-head"><div class="ch-title"><i class="ti ti-truck"></i>'+curV+'</div><div class="fields"><div class="field"><label>Data</label><input type="date" id="fd" value="'+(d.date||'')+'" onchange="uMeta()"></div><div class="field"><label>Km</label><input type="number" id="fk" value="'+(d.km||'')+'" placeholder="85000" onchange="uMeta()" style="width:90px"></div><div class="field"><label>Tecnico</label><input type="text" id="ft" value="'+(d.tech||'')+'" placeholder="Nome" onchange="uMeta()" style="width:100px"></div></div></div>'
+  +'<div class="reminder-row"><label><i class="ti ti-bell-ringing"></i> Promemoria</label><select id="remType" onchange="uRem()"><option value="months"'+(rem.type==='months'?' selected':'')+'>Ogni N mesi</option><option value="km"'+(rem.type==='km'?' selected':'')+'>Ogni N km</option></select><input type="number" id="remVal" value="'+(rem.value||6)+'" min="1" onchange="uRem()"><span class="reminder-hint" id="remHint"></span></div>'
+  +'<div class="tabs"><div class="tab'+(curTab==='form'?' active':'')+'" onclick="swTab(\'form\')"><i class="ti ti-checklist" style="font-size:15px"></i> Controlli</div><div class="tab'+(curTab==='history'?' active':'')+'" onclick="swTab(\'history\')"><i class="ti ti-archive" style="font-size:15px"></i> Storico <span class="cnt">'+sess.length+'</span></div><div class="tab'+(curTab==='timeline'?' active':'')+'" onclick="swTab(\'timeline\')"><i class="ti ti-calendar-event" style="font-size:15px"></i> Tagliandi</div></div>'
+  +(curTab==='form'?rForm(d,done,pct):'')+(curTab==='history'?rHist(sess):'')+(curTab==='timeline'?rTimeline(sess):'')
+  +'<div class="foot"><span class="foot-info" id="finfo"></span>'+(curTab==='form'?'<button class="btn" onclick="resetD()"><i class="ti ti-refresh"></i> Reset</button><button class="btn primary" onclick="archiveS()"><i class="ti ti-device-floppy"></i> Salva sessione</button>':'')+'</div>';
   updateRemHint();
 }
 
-function updateRemHint(){
-  const data=gd(curV),rem=data.reminder||{type:'months',value:6},sess=data.sessions||[];
-  const el=document.getElementById('remHint');if(!el)return;
-  if(!sess.length){el.textContent='Nessun tagliando registrato';return}
-  const last=sess[sess.length-1];
-  if(rem.type==='months'&&last.date){
-    const ld=new Date(last.date+'T00:00:00');
-    const deadline=new Date(ld.getTime()+rem.value*30.44*24*3600*1000);
-    const days=Math.round((deadline.getTime()-Date.now())/(24*3600*1000));
-    if(days<0)el.innerHTML='<span style="color:var(--danger);font-weight:600">Scaduto da '+Math.abs(days)+' giorni!</span>';
-    else if(days<=30)el.innerHTML='<span style="color:var(--warn);font-weight:600">Mancano '+days+' giorni</span>';
-    else el.textContent='Prossimo: '+deadline.toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'})+' ('+days+' giorni)';
-  }else if(rem.type==='km'&&last.km){
-    const target=parseInt(last.km)+parseInt(rem.value);
-    el.textContent='Prossimo tagliando a '+target.toLocaleString('it-IT')+' km. Inserisci i km attuali ad ogni sessione per il confronto.';
-  }else{
-    el.textContent=rem.type==='months'?'Inserisci una data nell\'ultimo tagliando':'Inserisci i km nell\'ultimo tagliando';
-  }
-}
+function updateRemHint(){const data=gd(curV),rem=data.reminder||{type:'months',value:6},sess=data.sessions||[],el=document.getElementById('remHint');if(!el)return;if(!sess.length){el.textContent='Nessun tagliando registrato';return}const last=sess[sess.length-1];if(rem.type==='months'&&last.date){const ld=new Date(last.date+'T00:00:00'),deadline=new Date(ld.getTime()+rem.value*30.44*24*3600*1000),days=Math.round((deadline.getTime()-Date.now())/(24*3600*1000));if(days<0)el.innerHTML='<span style="color:var(--danger);font-weight:600">Scaduto da '+Math.abs(days)+' giorni!</span>';else if(days<=30)el.innerHTML='<span style="color:var(--warn);font-weight:600">Mancano '+days+' giorni</span>';else el.textContent='Prossimo: '+deadline.toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'})+' ('+days+' giorni)'}else if(rem.type==='km'&&last.km){const target=parseInt(last.km)+parseInt(rem.value);el.textContent='Prossimo tagliando a '+target.toLocaleString('it-IT')+' km.'}else{el.textContent=rem.type==='months'?"Inserisci una data nell'ultimo tagliando":"Inserisci i km nell'ultimo tagliando"}}
 
-function rForm(d,done,pct){
-  let idx=0,rows='';
-  CATS.forEach(cat=>{
-    rows+=`<tr class="cat-row"><td colspan="4"><i class="ti ${cat.ic}" style="font-size:14px;vertical-align:-2px;margin-right:5px"></i>${cat.n}</td></tr>`;
-    cat.ck.forEach(c=>{
-      idx++;
-      const val=(d.checks&&d.checks[c])||'';
-      const note=(d.notes&&d.notes[c])||'';
-      rows+=`<tr><td class="num-td">${idx}</td><td>${c}</td><td style="text-align:center"><select class="chk-sel${val==='ok'?' ok':val==='ko'?' ko':''}" onchange="uChk('${esc(c)}',this)"><option value=""${!val?' selected':''}>—</option><option value="ok"${val==='ok'?' selected':''}>&#10003; Fatto</option><option value="ko"${val==='ko'?' selected':''}>&#10007; Da fare</option></select></td><td><input class="note-in" value="${esc(note)}" placeholder="Nota..." onchange="uNote('${esc(c)}',this)"></td></tr>`;
-    });
-  });
-  return`<div class="pbar-wrap"><span class="pbar-label">${done}/${ALL.length}</span><div class="pbar"><div class="pbar-fill" style="width:${pct}%"></div></div><span class="pbar-pct">${pct}%</span></div><div class="tbl-wrap"><table><thead><tr><th style="width:30px">#</th><th>Controllo</th><th style="width:95px;text-align:center">Stato</th><th style="width:200px">Note</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-}
+function rForm(d,done,pct){let idx=0,rows='';CATS.forEach(cat=>{rows+='<tr class="cat-row"><td colspan="4"><i class="ti '+cat.ic+'" style="font-size:14px;vertical-align:-2px;margin-right:5px"></i>'+cat.n+'</td></tr>';cat.ck.forEach(c=>{idx++;const val=(d.checks&&d.checks[c])||'',note=(d.notes&&d.notes[c])||'';rows+='<tr><td class="num-td">'+idx+'</td><td>'+c+'</td><td style="text-align:center"><select class="chk-sel'+(val==='ok'?' ok':val==='ko'?' ko':'')+'" onchange="uChk(\''+esc(c)+'\',this)"><option value=""'+(!val?' selected':'')+'>—</option><option value="ok"'+(val==='ok'?' selected':'')+'>&#10003; Fatto</option><option value="ko"'+(val==='ko'?' selected':'')+'>&#10007; Da fare</option></select></td><td><input class="note-in" value="'+esc(note)+'" placeholder="Nota..." onchange="uNote(\''+esc(c)+'\',this)"></td></tr>'})});return'<div class="pbar-wrap"><span class="pbar-label">'+done+'/'+ALL.length+'</span><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div><span class="pbar-pct">'+pct+'%</span></div><div class="tbl-wrap"><table><thead><tr><th style="width:30px">#</th><th>Controllo</th><th style="width:95px;text-align:center">Stato</th><th style="width:200px">Note</th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
 
-function rHist(sess){
-  if(!sess.length)return`<div class="empty-st" style="padding:2rem"><i class="ti ti-archive"></i><p>Nessuna sessione salvata</p></div>`;
-  return sess.slice().reverse().map((s,ri)=>{
-    const i=sess.length-1-ri;
-    const done=ALL.filter(c=>s.checks&&s.checks[c]==='ok').length;
-    const pct=ALL.length?Math.round(done/ALL.length*100):0;
-    const cls=pct>=80?'high':pct>=50?'med':'low';
-    const miss=ALL.filter(c=>!s.checks||s.checks[c]!=='ok');
-    const missText=miss.length===0?'<span style="color:var(--accent)"><i class="ti ti-circle-check" style="font-size:13px"></i> Completo</span>':miss.length<=3?'<span style="color:var(--danger)"><i class="ti ti-alert-triangle" style="font-size:13px"></i> Mancanti: '+miss.join(', ')+'</span>':'<span style="color:var(--danger)"><i class="ti ti-alert-triangle" style="font-size:13px"></i> '+miss.length+' mancanti</span>';
-    return`<div class="hist-card" onclick="loadS(${i})"><div class="hist-top"><span class="ht-date"><i class="ti ti-calendar-event"></i>${s.date?new Date(s.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}):'N/D'}</span><div class="ht-meta"><span>${s.km?parseInt(s.km).toLocaleString('it-IT')+' km':'—'}</span><span class="ht-badge ${cls}">${done}/${ALL.length} (${pct}%)</span><span class="hist-del" onclick="event.stopPropagation();delS(${i})"><i class="ti ti-trash" style="font-size:13px"></i></span></div></div><div class="hist-bot"><span><i class="ti ti-user" style="font-size:13px"></i>${s.tech||'—'}</span><span><i class="ti ti-clock" style="font-size:13px"></i>${s.savedAt||''}</span>${missText}</div></div>`;
-  }).join('');
-}
+function rHist(sess){if(!sess.length)return'<div class="empty-st" style="padding:2rem"><i class="ti ti-archive"></i><p>Nessuna sessione salvata</p></div>';return sess.slice().reverse().map((s,ri)=>{const i=sess.length-1-ri,done=ALL.filter(c=>s.checks&&s.checks[c]==='ok').length,pct=ALL.length?Math.round(done/ALL.length*100):0,cls=pct>=80?'high':pct>=50?'med':'low',miss=ALL.filter(c=>!s.checks||s.checks[c]!=='ok'),mt=miss.length===0?'<span style="color:var(--accent)"><i class="ti ti-circle-check" style="font-size:13px"></i> Completo</span>':miss.length<=3?'<span style="color:var(--danger)"><i class="ti ti-alert-triangle" style="font-size:13px"></i> Mancanti: '+miss.join(', ')+'</span>':'<span style="color:var(--danger)"><i class="ti ti-alert-triangle" style="font-size:13px"></i> '+miss.length+' mancanti</span>';return'<div class="hist-card" onclick="loadS('+i+')"><div class="hist-top"><span class="ht-date"><i class="ti ti-calendar-event"></i>'+(s.date?new Date(s.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}):'N/D')+'</span><div class="ht-meta"><span>'+(s.km?parseInt(s.km).toLocaleString('it-IT')+' km':'—')+'</span><span class="ht-badge '+cls+'">'+done+'/'+ALL.length+' ('+pct+'%)</span><span class="hist-del" onclick="event.stopPropagation();delS('+i+')"><i class="ti ti-trash" style="font-size:13px"></i></span></div></div><div class="hist-bot"><span><i class="ti ti-user" style="font-size:13px"></i>'+(s.tech||'—')+'</span><span><i class="ti ti-clock" style="font-size:13px"></i>'+(s.savedAt||'')+'</span>'+mt+'</div></div>'}).join('')}
 
-function rTimeline(sess){
-  if(!sess.length)return`<div class="empty-st" style="padding:2rem"><i class="ti ti-calendar-off"></i><p>Nessun tagliando registrato</p></div>`;
-  const sorted=[...sess].map((s,i)=>({...s,idx:i})).sort((a,b)=>{
-    if(!a.date&&!b.date)return 0;if(!a.date)return 1;if(!b.date)return -1;
-    return new Date(b.date)-new Date(a.date);
-  });
-  let prevKm=null;
-  const data=gd(curV),rem=data.reminder||{type:'months',value:6};
-  let nextLine='';
-  if(sorted.length&&sorted[0].date&&rem.type==='months'){
-    const ld=new Date(sorted[0].date+'T00:00:00');
-    const next=new Date(ld.getTime()+rem.value*30.44*24*3600*1000);
-    const days=Math.round((next.getTime()-Date.now())/(24*3600*1000));
-    const col=days<0?'var(--danger)':days<=30?'var(--warn)':'var(--accent)';
-    nextLine=`<div class="tl-line"><div class="tl-dot" style="background:${col}"></div><div class="tl-date" style="color:${col}"><i class="ti ti-clock-forward" style="font-size:14px;vertical-align:-1px;margin-right:3px"></i>Prossimo tagliando: ${next.toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'})}</div><div class="tl-info"><span>${days<0?'Scaduto da '+Math.abs(days)+' giorni':'Tra '+days+' giorni'}</span></div></div>`;
-  }
-  if(sorted.length&&sorted[0].km&&rem.type==='km'){
-    const target=parseInt(sorted[0].km)+parseInt(rem.value);
-    nextLine=`<div class="tl-line"><div class="tl-dot" style="background:var(--warn)"></div><div class="tl-date" style="color:var(--warn)"><i class="ti ti-clock-forward" style="font-size:14px;vertical-align:-1px;margin-right:3px"></i>Prossimo tagliando a ${target.toLocaleString('it-IT')} km</div><div class="tl-info"><span>Aggiorna i km ad ogni sessione</span></div></div>`;
-  }
+function rTimeline(sess){if(!sess.length)return'<div class="empty-st" style="padding:2rem"><i class="ti ti-calendar-off"></i><p>Nessun tagliando registrato</p></div>';const sorted=[...sess].map((s,i)=>({...s,idx:i})).sort((a,b)=>{if(!a.date&&!b.date)return 0;if(!a.date)return 1;if(!b.date)return-1;return new Date(b.date)-new Date(a.date)});let prevKm=null;const data=gd(curV),rem=data.reminder||{type:'months',value:6};let nl='';if(sorted.length&&sorted[0].date&&rem.type==='months'){const ld=new Date(sorted[0].date+'T00:00:00'),next=new Date(ld.getTime()+rem.value*30.44*24*3600*1000),days=Math.round((next.getTime()-Date.now())/(24*3600*1000)),col=days<0?'var(--danger)':days<=30?'var(--warn)':'var(--accent)';nl='<div class="tl-line"><div class="tl-dot" style="background:'+col+'"></div><div class="tl-date" style="color:'+col+'"><i class="ti ti-clock-forward" style="font-size:14px;vertical-align:-1px;margin-right:3px"></i>Prossimo tagliando: '+next.toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'})+'</div><div class="tl-info"><span>'+(days<0?'Scaduto da '+Math.abs(days)+' giorni':'Tra '+days+' giorni')+'</span></div></div>'}if(sorted.length&&sorted[0].km&&rem.type==='km'){const target=parseInt(sorted[0].km)+parseInt(rem.value);nl='<div class="tl-line"><div class="tl-dot" style="background:var(--warn)"></div><div class="tl-date" style="color:var(--warn)"><i class="ti ti-clock-forward" style="font-size:14px;vertical-align:-1px;margin-right:3px"></i>Prossimo a '+target.toLocaleString('it-IT')+' km</div><div class="tl-info"><span>Aggiorna i km ad ogni sessione</span></div></div>'}return'<div class="tl-head"><i class="ti ti-timeline" style="font-size:14px"></i> Cronologia tagliandi — '+curV+'</div><div class="tl-wrap">'+nl+sorted.map(s=>{const done=ALL.filter(c=>s.checks&&s.checks[c]==='ok').length,pct=ALL.length?Math.round(done/ALL.length*100):0,km=s.km?parseInt(s.km):null;let delta='';if(km!==null&&prevKm!==null&&prevKm>km)delta=' (+'+(prevKm-km).toLocaleString('it-IT')+' km)';if(km!==null)prevKm=km;const fmtD=s.date?new Date(s.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}):'Data N/D';return'<div class="tl-line"><div class="tl-dot"></div><div class="tl-date">'+fmtD+'</div><div class="tl-info"><span><i class="ti ti-road"></i>'+(km?km.toLocaleString('it-IT')+' km':'—')+delta+'</span><span><i class="ti ti-user"></i>'+(s.tech||'—')+'</span><span><i class="ti ti-checklist"></i>'+done+'/'+ALL.length+' ('+pct+'%)</span></div></div>'}).join('')+'</div>'}
 
-  return`<div class="tl-head"><i class="ti ti-timeline" style="font-size:14px"></i> Cronologia tagliandi — ${curV}</div><div class="tl-wrap">${nextLine}${sorted.map(s=>{
-    const done=ALL.filter(c=>s.checks&&s.checks[c]==='ok').length;
-    const pct=ALL.length?Math.round(done/ALL.length*100):0;
-    const km=s.km?parseInt(s.km):null;
-    let delta='';
-    if(km!==null&&prevKm!==null&&prevKm>km)delta=' (+'+((prevKm-km).toLocaleString('it-IT'))+' km)';
-    if(km!==null)prevKm=km;
-    const fmtD=s.date?new Date(s.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}):'Data N/D';
-    return`<div class="tl-line"><div class="tl-dot"></div><div class="tl-date">${fmtD}</div><div class="tl-info"><span><i class="ti ti-road"></i>${km?km.toLocaleString('it-IT')+' km':'—'}${delta}</span><span><i class="ti ti-user"></i>${s.tech||'—'}</span><span><i class="ti ti-checklist"></i>${done}/${ALL.length} (${pct}%)</span></div></div>`;
-  }).join('')}</div>`;
-}
-
-/* ---------- ACTIONS ---------- */
 function esc(s){return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;')}
 function swTab(t){curTab=t;renderSheet()}
-
-function uMeta(){
-  const data=gd(curV);if(!data.draft)data.draft={};
-  data.draft.date=document.getElementById('fd').value;
-  data.draft.km=document.getElementById('fk').value;
-  data.draft.tech=document.getElementById('ft').value;
-  sd(curV,data);toast('Salvato');
-}
-
-function uRem(){
-  const data=gd(curV);
-  data.reminder={type:document.getElementById('remType').value,value:parseInt(document.getElementById('remVal').value)||6};
-  sd(curV,data);updateRemHint();checkAlerts();toast('Promemoria aggiornato');
-}
-
-function uChk(c,sel){
-  const data=gd(curV);if(!data.draft)data.draft={};if(!data.draft.checks)data.draft.checks={};
-  data.draft.checks[c]=sel.value;
-  sel.className='chk-sel'+(sel.value==='ok'?' ok':sel.value==='ko'?' ko':'');
-  sd(curV,data);
-  const done=ALL.filter(ch=>data.draft.checks[ch]==='ok').length;
-  const pct=ALL.length?Math.round(done/ALL.length*100):0;
-  const pf=document.querySelector('.pbar-fill'),pl=document.querySelector('.pbar-label'),pp=document.querySelector('.pbar-pct');
-  if(pf)pf.style.width=pct+'%';if(pl)pl.textContent=done+'/'+ALL.length;if(pp)pp.textContent=pct+'%';
-}
-
-function uNote(c,inp){
-  const data=gd(curV);if(!data.draft)data.draft={};if(!data.draft.notes)data.draft.notes={};
-  data.draft.notes[c]=inp.value;sd(curV,data);
-}
-
+function uMeta(){const data=gd(curV);if(!data.draft)data.draft={};data.draft.date=document.getElementById('fd').value;data.draft.km=document.getElementById('fk').value;data.draft.tech=document.getElementById('ft').value;sd(curV,data);toast('Salvato')}
+function uRem(){const data=gd(curV);data.reminder={type:document.getElementById('remType').value,value:parseInt(document.getElementById('remVal').value)||6};sd(curV,data);updateRemHint();checkAlerts();toast('Promemoria aggiornato')}
+function uChk(c,sel){const data=gd(curV);if(!data.draft)data.draft={};if(!data.draft.checks)data.draft.checks={};data.draft.checks[c]=sel.value;sel.className='chk-sel'+(sel.value==='ok'?' ok':sel.value==='ko'?' ko':'');sd(curV,data);const done=ALL.filter(ch=>data.draft.checks[ch]==='ok').length,pct=ALL.length?Math.round(done/ALL.length*100):0,pf=document.querySelector('.pbar-fill'),pl=document.querySelector('.pbar-label'),pp=document.querySelector('.pbar-pct');if(pf)pf.style.width=pct+'%';if(pl)pl.textContent=done+'/'+ALL.length;if(pp)pp.textContent=pct+'%'}
+function uNote(c,inp){const data=gd(curV);if(!data.draft)data.draft={};if(!data.draft.notes)data.draft.notes={};data.draft.notes[c]=inp.value;sd(curV,data)}
 function resetD(){if(!confirm('Azzerare il draft?'))return;const data=gd(curV);data.draft={date:'',km:'',tech:'',checks:{},notes:{}};sd(curV,data);renderSheet()}
+async function archiveS(){const data=gd(curV),d=data.draft||{};if(!d.date&&!d.km){alert('Inserisci almeno data o km.');return}const now=new Date(),s={...d,savedAt:now.toLocaleDateString('it-IT')+' '+now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};if(!data.sessions)data.sessions=[];data.sessions.push(s);data.draft={date:'',km:'',tech:'',checks:{},notes:{}};vehData[docId(curV)]=data;await saveVehicleDataNow(curV);renderV();checkAlerts();curTab='history';renderSheet();toast('Sessione salvata!')}
+function loadS(i){const data=gd(curV),s=data.sessions[i];data.draft={date:s.date,km:s.km,tech:s.tech,checks:{...s.checks},notes:{...s.notes}};sd(curV,data);curTab='form';renderSheet()}
+async function delS(i){if(!confirm('Eliminare?'))return;const data=gd(curV);data.sessions.splice(i,1);vehData[docId(curV)]=data;await saveVehicleDataNow(curV);renderV();checkAlerts();renderSheet();toast('Sessione eliminata')}
 
-function archiveS(){
-  const data=gd(curV),d=data.draft||{};
-  if(!d.date&&!d.km){alert('Inserisci almeno data o km.');return}
-  const now=new Date();
-  const s={...d,savedAt:now.toLocaleDateString('it-IT')+' '+now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-  if(!data.sessions)data.sessions=[];
-  data.sessions.push(s);
-  data.draft={date:'',km:'',tech:'',checks:{},notes:{}};
-  sd(curV,data);renderV();checkAlerts();curTab='history';renderSheet();
-  toast('Sessione salvata!');
-}
-
-function loadS(i){const data=gd(curV);const s=data.sessions[i];data.draft={date:s.date,km:s.km,tech:s.tech,checks:{...s.checks},notes:{...s.notes}};sd(curV,data);curTab='form';renderSheet()}
-
-function delS(i){if(!confirm('Eliminare?'))return;const data=gd(curV);data.sessions.splice(i,1);sd(curV,data);renderV();checkAlerts();renderSheet();toast('Sessione eliminata')}
-
-/* ---------- BOOT ---------- */
-function boot(){
-  vehs=LS('mol3_v')||[...DEF_V];
-  renderV();checkAlerts();
-  if(vehs.length)selV(vehs[0]);
-}
+async function boot(){await loadAllData();renderV();checkAlerts();if(vehs.length)selV(vehs[0])}
 </script>
 </body>
 </html>
