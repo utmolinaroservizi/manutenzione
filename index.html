@@ -58,6 +58,8 @@ input,select,textarea,button{font-family:var(--font)}
 .app-topbar .user-pill i{font-size:16px;color:var(--accent)}
 .logout-btn{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 12px;font-size:12px;color:var(--tx2);cursor:pointer;display:flex;align-items:center;gap:4px}
 .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+.panel-toggle-btn{background:var(--accentLL);border:1px solid var(--accentL);border-radius:var(--radius);padding:6px 10px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .15s}
+.panel-toggle-btn:hover{background:var(--accentL)}
 .sync-pill{display:flex;align-items:center;gap:4px;font-size:11px;padding:4px 10px;border-radius:12px;background:var(--accentLL);color:var(--accent)}
 .sync-pill.syncing{background:var(--warnLL);color:var(--warn)}
 .sync-pill i{font-size:13px}
@@ -196,6 +198,7 @@ tbody tr:hover td{background:var(--bg)}
 </div>
 <div class="app-wrap" id="appWrap">
   <div class="app-topbar">
+    <button class="panel-toggle-btn" id="panelToggleBtn" onclick="togglePanel()" title="Apri elenco mezzi" style="display:none"><i class="ti ti-menu-2" style="font-size:18px"></i></button>
     <div class="logo"><img src="assets/logo-molinaro.jpg" alt="Molinaro"><div class="divider"></div><div class="module"><span class="m-title">Manutenzione</span><span class="m-sub">Gestione parco mezzi</span></div></div>
     <div class="spacer"></div>
     <div class="sync-pill" id="syncPill"><i class="ti ti-cloud-check"></i> <span id="syncText">Sincronizzato</span></div>
@@ -265,7 +268,7 @@ function gd(v){const id=docId(v);if(!vehData[id])vehData[id]={sessions:[],draft:
 function sd(v,data){vehData[docId(v)]=data;saveVehicleData(v)}
 
 function toast(msg,type){const t=document.getElementById('toast'),tt=document.getElementById('toastText');tt.textContent=msg||'Salvato';t.className='toast '+(type||'ok')+' show';clearTimeout(toastTm);toastTm=setTimeout(()=>t.classList.remove('show'),2200)}
-function togglePanel(){panelOpen=!panelOpen;document.getElementById('panel').classList.toggle('collapsed',!panelOpen)}
+function togglePanel(){panelOpen=!panelOpen;document.getElementById('panel').classList.toggle('collapsed',!panelOpen);document.getElementById('panelToggleBtn').style.display=panelOpen?'none':'flex'}
 
 function checkAlerts(){
   const bar=document.getElementById('alertsBar'),chips=[],now=Date.now();
