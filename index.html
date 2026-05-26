@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Molinaro — Manutenzione parco mezzi</title>
-<link rel="icon" type="image/png" href="assets/logo-molinaro.jpg">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.6.0/dist/tabler-icons.min.css">
@@ -14,6 +14,7 @@
   --accent:#4DAB3D;--accent2:#3D8B2E;--accent3:#2D6A21;--accentL:#D4ECCA;--accentLL:#EAF5E3;
   --danger:#B33A3A;--dangerL:#FCEAEA;--dangerLL:#FDF5F5;
   --warn:#9A6C1E;--warnL:#FFF3D6;--warnLL:#FFFBF0;
+  --blue:#2E6BAB;--blueL:#E3EEF8;--blueLL:#F0F6FC;
   --border:#e3e6df;--border2:#cdd3c8;
   --radius:10px;--radius-lg:14px;
   --font:'DM Sans',system-ui,sans-serif;
@@ -112,8 +113,8 @@ input,select,textarea,button{font-family:var(--font)}
 .reminder-row input[type=number]{width:70px}
 .reminder-row select:focus,.reminder-row input:focus{outline:none;border-color:var(--accent)}
 .reminder-hint{font-size:11px;color:var(--tx3);margin-left:4px}
-.tabs{display:flex;border-bottom:1px solid var(--border)}
-.tab{padding:10px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--tx2);display:flex;align-items:center;gap:5px;transition:color .15s}
+.tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:10px 14px;font-size:12px;cursor:pointer;border-bottom:2px solid transparent;color:var(--tx2);display:flex;align-items:center;gap:5px;transition:color .15s;white-space:nowrap}
 .tab:hover{color:var(--tx)}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
 .tab .cnt{font-size:10px;padding:1px 7px;border-radius:8px;background:var(--bg);color:var(--tx3)}
@@ -171,6 +172,29 @@ tbody tr:hover td{background:var(--bg)}
 .tl-info{font-size:12px;color:var(--tx2);margin-top:3px;display:flex;gap:14px;flex-wrap:wrap}
 .tl-info span{display:flex;align-items:center;gap:4px}
 .tl-info i{font-size:13px}
+/* KM/ORE SECTION */
+.kmh-form{padding:16px 20px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--bg)}
+.kmh-form .field input{width:110px}
+.kmh-summary{display:flex;gap:16px;padding:14px 20px;flex-wrap:wrap}
+.kmh-box{flex:1;min-width:140px;padding:14px;border-radius:var(--radius);text-align:center}
+.kmh-box.km-box{background:var(--accentLL);border:1px solid var(--accentL)}
+.kmh-box.ore-box{background:var(--blueLL);border:1px solid #B8D4EE}
+.kmh-box.tot-box{background:var(--warnLL);border:1px solid #EDD99B}
+.kmh-box.delta-box{background:var(--dangerLL);border:1px solid #F0C0C0}
+.kmh-box .kb-val{font-size:22px;font-weight:700;color:var(--tx)}
+.kmh-box .kb-label{font-size:10px;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.kmh-entry{border:1px solid var(--border);border-radius:var(--radius);margin:6px 20px;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--tx2);transition:border-color .15s}
+.kmh-entry:hover{border-color:var(--border2)}
+.kmh-entry .ke-date{font-weight:600;color:var(--tx);display:flex;align-items:center;gap:4px}
+.kmh-entry .ke-date i{font-size:14px;color:var(--accent)}
+.kmh-entry .ke-del{margin-left:auto;color:var(--danger);opacity:0;cursor:pointer;padding:2px 6px;border-radius:4px;font-size:11px}
+.kmh-entry:hover .ke-del{opacity:.5}
+.kmh-entry:hover .ke-del:hover{opacity:1;background:var(--dangerL)}
+/* SCHEDA VEICOLO */
+.vnotes-wrap{padding:16px 20px}
+.vnotes-wrap textarea{width:100%;min-height:200px;border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-size:13px;font-family:var(--font);color:var(--tx);background:var(--bg);resize:vertical;line-height:1.6}
+.vnotes-wrap textarea:focus{outline:none;border-color:var(--accent);background:var(--bg3)}
+.vnotes-wrap .vnotes-hint{font-size:11px;color:var(--tx3);margin-top:6px}
 .toast{position:fixed;top:20px;right:20px;padding:10px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:999;opacity:0;transform:translateY(-10px);transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:6px}
 .toast.show{opacity:1;transform:translateY(0)}
 .toast.ok{background:var(--accent);color:#fff}
@@ -245,6 +269,7 @@ const CK_A=["Ammortizzatori anteriori","Ammortizzatori posteriori","Frizione","G
 const CATS=[{n:"Motore e filtri",ic:"ti-engine",ck:CK_M},{n:"Impianto",ic:"ti-droplet",ck:CK_I},{n:"Freni",ic:"ti-circle-minus",ck:CK_F},{n:"Sospensioni e altro",ic:"ti-settings-2",ck:CK_A}];
 const ALL=CATS.flatMap(c=>c.ck);
 const DEF_V=["Mitsubishi Fuso","Peugeot Partner","Fiat Panda","Mercedes Atego","Daily Palfinger","Daily 60C15","Eurocargo 180E28","Toyota Hilux","Peugeot Bipper"];
+const KM_PER_HOUR=50;
 
 let vehs=[],vehData={},curV=null,curTab='form',panelOpen=true,toastTm=null,saveTimer=null;
 
@@ -264,7 +289,14 @@ async function loadAllData(){
 async function saveVehiclesList(){syncStatus('syncing');try{await db.collection('config').doc('vehicles').set({list:vehs})}catch(e){console.error(e)}syncStatus('ok')}
 function saveVehicleData(v){clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{syncStatus('syncing');try{await db.collection('vehicles').doc(docId(v)).set(vehData[docId(v)]||{})}catch(e){console.error(e)}syncStatus('ok')},400)}
 async function saveVehicleDataNow(v){syncStatus('syncing');try{await db.collection('vehicles').doc(docId(v)).set(vehData[docId(v)]||{})}catch(e){console.error(e)}syncStatus('ok')}
-function gd(v){const id=docId(v);if(!vehData[id])vehData[id]={sessions:[],draft:{date:'',km:'',tech:'',checks:{},notes:{}},reminder:{type:'months',value:6}};return vehData[id]}
+
+function gd(v){
+  const id=docId(v);
+  if(!vehData[id])vehData[id]={sessions:[],draft:{date:'',km:'',tech:'',checks:{},notes:{}},reminder:{type:'months',value:6},kmLogs:[],vehicleNotes:''};
+  if(!vehData[id].kmLogs)vehData[id].kmLogs=[];
+  if(typeof vehData[id].vehicleNotes==='undefined')vehData[id].vehicleNotes='';
+  return vehData[id];
+}
 function sd(v,data){vehData[docId(v)]=data;saveVehicleData(v)}
 
 function toast(msg,type){const t=document.getElementById('toast'),tt=document.getElementById('toastText');tt.textContent=msg||'Salvato';t.className='toast '+(type||'ok')+' show';clearTimeout(toastTm);toastTm=setTimeout(()=>t.classList.remove('show'),2200)}
@@ -287,26 +319,131 @@ async function delV(i){const v=vehs[i];if(!confirm('Rimuovere '+v+'?'))return;ve
 function showEmpty(){document.getElementById('emptystate').style.display='';document.getElementById('sheet').style.display='none'}
 function selV(v){curV=v;curTab='form';renderV();renderSheet()}
 
+/* ========== RENDER SHEET ========== */
 function renderSheet(){
   document.getElementById('emptystate').style.display='none';const sh=document.getElementById('sheet');sh.style.display='';
-  const data=gd(curV),d=data.draft||{date:'',km:'',tech:'',checks:{},notes:{}},sess=data.sessions||[],rem=data.reminder||{type:'months',value:6};
+  const data=gd(curV),d=data.draft||{date:'',km:'',tech:'',checks:{},notes:{}},sess=data.sessions||[],rem=data.reminder||{type:'months',value:6},logs=data.kmLogs||[];
   const done=ALL.filter(c=>d.checks&&d.checks[c]==='ok').length,pct=ALL.length?Math.round(done/ALL.length*100):0;
   sh.innerHTML='<div class="card-head"><div class="ch-title"><i class="ti ti-truck"></i>'+curV+'</div><div class="fields"><div class="field"><label>Data</label><input type="date" id="fd" value="'+(d.date||'')+'" onchange="uMeta()"></div><div class="field"><label>Km</label><input type="number" id="fk" value="'+(d.km||'')+'" placeholder="85000" onchange="uMeta()" style="width:90px"></div><div class="field"><label>Tecnico</label><input type="text" id="ft" value="'+(d.tech||'')+'" placeholder="Nome" onchange="uMeta()" style="width:100px"></div></div></div>'
   +'<div class="reminder-row"><label><i class="ti ti-bell-ringing"></i> Promemoria</label><select id="remType" onchange="uRem()"><option value="months"'+(rem.type==='months'?' selected':'')+'>Ogni N mesi</option><option value="km"'+(rem.type==='km'?' selected':'')+'>Ogni N km</option></select><input type="number" id="remVal" value="'+(rem.value||6)+'" min="1" onchange="uRem()"><span class="reminder-hint" id="remHint"></span></div>'
-  +'<div class="tabs"><div class="tab'+(curTab==='form'?' active':'')+'" onclick="swTab(\'form\')"><i class="ti ti-checklist" style="font-size:15px"></i> Controlli</div><div class="tab'+(curTab==='history'?' active':'')+'" onclick="swTab(\'history\')"><i class="ti ti-archive" style="font-size:15px"></i> Storico <span class="cnt">'+sess.length+'</span></div><div class="tab'+(curTab==='timeline'?' active':'')+'" onclick="swTab(\'timeline\')"><i class="ti ti-calendar-event" style="font-size:15px"></i> Tagliandi</div></div>'
-  +(curTab==='form'?rForm(d,done,pct):'')+(curTab==='history'?rHist(sess):'')+(curTab==='timeline'?rTimeline(sess):'')
+  +'<div class="tabs">'
+  +'<div class="tab'+(curTab==='form'?' active':'')+'" onclick="swTab(\'form\')"><i class="ti ti-checklist" style="font-size:15px"></i> Controlli</div>'
+  +'<div class="tab'+(curTab==='history'?' active':'')+'" onclick="swTab(\'history\')"><i class="ti ti-archive" style="font-size:15px"></i> Storico <span class="cnt">'+sess.length+'</span></div>'
+  +'<div class="tab'+(curTab==='timeline'?' active':'')+'" onclick="swTab(\'timeline\')"><i class="ti ti-calendar-event" style="font-size:15px"></i> Tagliandi</div>'
+  +'<div class="tab'+(curTab==='kmhours'?' active':'')+'" onclick="swTab(\'kmhours\')"><i class="ti ti-gauge" style="font-size:15px"></i> Km/Ore <span class="cnt">'+logs.length+'</span></div>'
+  +'<div class="tab'+(curTab==='vnotes'?' active':'')+'" onclick="swTab(\'vnotes\')"><i class="ti ti-notes" style="font-size:15px"></i> Scheda</div>'
+  +'</div>'
+  +(curTab==='form'?rForm(d,done,pct):'')+(curTab==='history'?rHist(sess):'')+(curTab==='timeline'?rTimeline(sess):'')+(curTab==='kmhours'?rKmHours():'')+(curTab==='vnotes'?rVehicleNotes():'')
   +'<div class="foot"><span class="foot-info" id="finfo"></span>'+(curTab==='form'?'<button class="btn" onclick="resetD()"><i class="ti ti-refresh"></i> Reset</button><button class="btn primary" onclick="archiveS()"><i class="ti ti-device-floppy"></i> Salva sessione</button>':'')+'</div>';
   updateRemHint();
 }
 
 function updateRemHint(){const data=gd(curV),rem=data.reminder||{type:'months',value:6},sess=data.sessions||[],el=document.getElementById('remHint');if(!el)return;if(!sess.length){el.textContent='Nessun tagliando registrato';return}const last=sess[sess.length-1];if(rem.type==='months'&&last.date){const ld=new Date(last.date+'T00:00:00'),deadline=new Date(ld.getTime()+rem.value*30.44*24*3600*1000),days=Math.round((deadline.getTime()-Date.now())/(24*3600*1000));if(days<0)el.innerHTML='<span style="color:var(--danger);font-weight:600">Scaduto da '+Math.abs(days)+' giorni!</span>';else if(days<=30)el.innerHTML='<span style="color:var(--warn);font-weight:600">Mancano '+days+' giorni</span>';else el.textContent='Prossimo: '+deadline.toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'})+' ('+days+' giorni)'}else if(rem.type==='km'&&last.km){const target=parseInt(last.km)+parseInt(rem.value);el.textContent='Prossimo tagliando a '+target.toLocaleString('it-IT')+' km.'}else{el.textContent=rem.type==='months'?"Inserisci una data nell'ultimo tagliando":"Inserisci i km nell'ultimo tagliando"}}
 
+/* ---- TAB: CONTROLLI ---- */
 function rForm(d,done,pct){let idx=0,rows='';CATS.forEach(cat=>{rows+='<tr class="cat-row"><td colspan="4"><i class="ti '+cat.ic+'" style="font-size:14px;vertical-align:-2px;margin-right:5px"></i>'+cat.n+'</td></tr>';cat.ck.forEach(c=>{idx++;const val=(d.checks&&d.checks[c])||'',note=(d.notes&&d.notes[c])||'';rows+='<tr><td class="num-td">'+idx+'</td><td>'+c+'</td><td style="text-align:center"><select class="chk-sel'+(val==='ok'?' ok':val==='ko'?' ko':'')+'" onchange="uChk(\''+esc(c)+'\',this)"><option value=""'+(!val?' selected':'')+'>—</option><option value="ok"'+(val==='ok'?' selected':'')+'>&#10003; Fatto</option><option value="ko"'+(val==='ko'?' selected':'')+'>&#10007; Da fare</option></select></td><td><input class="note-in" value="'+esc(note)+'" placeholder="Nota..." onchange="uNote(\''+esc(c)+'\',this)"></td></tr>'})});return'<div class="pbar-wrap"><span class="pbar-label">'+done+'/'+ALL.length+'</span><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div><span class="pbar-pct">'+pct+'%</span></div><div class="tbl-wrap"><table><thead><tr><th style="width:30px">#</th><th>Controllo</th><th style="width:95px;text-align:center">Stato</th><th style="width:200px">Note</th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
 
+/* ---- TAB: STORICO ---- */
 function rHist(sess){if(!sess.length)return'<div class="empty-st" style="padding:2rem"><i class="ti ti-archive"></i><p>Nessuna sessione salvata</p></div>';return sess.slice().reverse().map((s,ri)=>{const i=sess.length-1-ri,done=ALL.filter(c=>s.checks&&s.checks[c]==='ok').length,pct=ALL.length?Math.round(done/ALL.length*100):0,cls=pct>=80?'high':pct>=50?'med':'low',miss=ALL.filter(c=>!s.checks||s.checks[c]!=='ok'),mt=miss.length===0?'<span style="color:var(--accent)"><i class="ti ti-circle-check" style="font-size:13px"></i> Completo</span>':miss.length<=3?'<span style="color:var(--danger)"><i class="ti ti-alert-triangle" style="font-size:13px"></i> Mancanti: '+miss.join(', ')+'</span>':'<span style="color:var(--danger)"><i class="ti ti-alert-triangle" style="font-size:13px"></i> '+miss.length+' mancanti</span>';return'<div class="hist-card" onclick="loadS('+i+')"><div class="hist-top"><span class="ht-date"><i class="ti ti-calendar-event"></i>'+(s.date?new Date(s.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}):'N/D')+'</span><div class="ht-meta"><span>'+(s.km?parseInt(s.km).toLocaleString('it-IT')+' km':'—')+'</span><span class="ht-badge '+cls+'">'+done+'/'+ALL.length+' ('+pct+'%)</span><span class="hist-del" onclick="event.stopPropagation();delS('+i+')"><i class="ti ti-trash" style="font-size:13px"></i></span></div></div><div class="hist-bot"><span><i class="ti ti-user" style="font-size:13px"></i>'+(s.tech||'—')+'</span><span><i class="ti ti-clock" style="font-size:13px"></i>'+(s.savedAt||'')+'</span>'+mt+'</div></div>'}).join('')}
 
+/* ---- TAB: TAGLIANDI ---- */
 function rTimeline(sess){if(!sess.length)return'<div class="empty-st" style="padding:2rem"><i class="ti ti-calendar-off"></i><p>Nessun tagliando registrato</p></div>';const sorted=[...sess].map((s,i)=>({...s,idx:i})).sort((a,b)=>{if(!a.date&&!b.date)return 0;if(!a.date)return 1;if(!b.date)return-1;return new Date(b.date)-new Date(a.date)});let prevKm=null;const data=gd(curV),rem=data.reminder||{type:'months',value:6};let nl='';if(sorted.length&&sorted[0].date&&rem.type==='months'){const ld=new Date(sorted[0].date+'T00:00:00'),next=new Date(ld.getTime()+rem.value*30.44*24*3600*1000),days=Math.round((next.getTime()-Date.now())/(24*3600*1000)),col=days<0?'var(--danger)':days<=30?'var(--warn)':'var(--accent)';nl='<div class="tl-line"><div class="tl-dot" style="background:'+col+'"></div><div class="tl-date" style="color:'+col+'"><i class="ti ti-clock-forward" style="font-size:14px;vertical-align:-1px;margin-right:3px"></i>Prossimo tagliando: '+next.toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'})+'</div><div class="tl-info"><span>'+(days<0?'Scaduto da '+Math.abs(days)+' giorni':'Tra '+days+' giorni')+'</span></div></div>'}if(sorted.length&&sorted[0].km&&rem.type==='km'){const target=parseInt(sorted[0].km)+parseInt(rem.value);nl='<div class="tl-line"><div class="tl-dot" style="background:var(--warn)"></div><div class="tl-date" style="color:var(--warn)"><i class="ti ti-clock-forward" style="font-size:14px;vertical-align:-1px;margin-right:3px"></i>Prossimo a '+target.toLocaleString('it-IT')+' km</div><div class="tl-info"><span>Aggiorna i km ad ogni sessione</span></div></div>'}return'<div class="tl-head"><i class="ti ti-timeline" style="font-size:14px"></i> Cronologia tagliandi — '+curV+'</div><div class="tl-wrap">'+nl+sorted.map(s=>{const done=ALL.filter(c=>s.checks&&s.checks[c]==='ok').length,pct=ALL.length?Math.round(done/ALL.length*100):0,km=s.km?parseInt(s.km):null;let delta='';if(km!==null&&prevKm!==null&&prevKm>km)delta=' (+'+(prevKm-km).toLocaleString('it-IT')+' km)';if(km!==null)prevKm=km;const fmtD=s.date?new Date(s.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}):'Data N/D';return'<div class="tl-line"><div class="tl-dot"></div><div class="tl-date">'+fmtD+'</div><div class="tl-info"><span><i class="ti ti-road"></i>'+(km?km.toLocaleString('it-IT')+' km':'—')+delta+'</span><span><i class="ti ti-user"></i>'+(s.tech||'—')+'</span><span><i class="ti ti-checklist"></i>'+done+'/'+ALL.length+' ('+pct+'%)</span></div></div>'}).join('')+'</div>'}
 
+/* ---- TAB: KM/ORE ---- */
+function rKmHours(){
+  const data=gd(curV),logs=data.kmLogs||[],sess=data.sessions||[];
+  // Determine reference km from last service session
+  let refKm=0,refLabel='Nessun tagliando registrato';
+  if(sess.length){
+    const last=sess[sess.length-1];
+    if(last.km)refKm=parseInt(last.km);
+    refLabel='Km al tagliando: '+refKm.toLocaleString('it-IT')+' km'+(last.date?' ('+new Date(last.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'})+')':'');
+  }
+  // Current values from latest log
+  let curKm=refKm,curOre=0,totKmEquiv=refKm;
+  if(logs.length){
+    const latest=logs[logs.length-1];
+    curKm=latest.km||0;curOre=latest.ore||0;
+    totKmEquiv=curKm+(curOre*KM_PER_HOUR);
+  }
+  const deltaKm=totKmEquiv-refKm;
+
+  let html='<div class="kmh-form">'
+    +'<div class="field"><label>Data</label><input type="date" id="klDate"></div>'
+    +'<div class="field"><label>Km contachilometri</label><input type="number" id="klKm" placeholder="85000" style="width:110px"></div>'
+    +'<div class="field"><label>Ore di lavoro</label><input type="number" id="klOre" placeholder="0" min="0" style="width:90px"></div>'
+    +'<button class="btn primary" onclick="addKmLog()" style="margin-bottom:1px"><i class="ti ti-plus"></i> Registra</button>'
+    +'</div>';
+
+  // Summary boxes
+  html+='<div class="kmh-summary">'
+    +'<div class="kmh-box km-box"><div class="kb-val">'+curKm.toLocaleString('it-IT')+'</div><div class="kb-label">Km contachilometri</div></div>'
+    +'<div class="kmh-box ore-box"><div class="kb-val">'+curOre.toLocaleString('it-IT')+'</div><div class="kb-label">Ore lavoro (×'+KM_PER_HOUR+' km = '+(curOre*KM_PER_HOUR).toLocaleString('it-IT')+')</div></div>'
+    +'<div class="kmh-box tot-box"><div class="kb-val">'+totKmEquiv.toLocaleString('it-IT')+'</div><div class="kb-label">Km equivalenti totali</div></div>'
+    +'<div class="kmh-box delta-box"><div class="kb-val">'+(deltaKm>=0?'+':'')+deltaKm.toLocaleString('it-IT')+'</div><div class="kb-label">Delta km da ultimo tagliando</div></div>'
+    +'</div>';
+
+  // Reference info
+  html+='<div style="padding:4px 20px 8px;font-size:11px;color:var(--tx3)"><i class="ti ti-info-circle" style="font-size:13px;vertical-align:-1px;margin-right:3px"></i>'+refLabel+'</div>';
+
+  // Log entries
+  if(!logs.length){
+    html+='<div class="empty-st" style="padding:2rem"><i class="ti ti-gauge"></i><p>Nessun caricamento km/ore registrato</p></div>';
+  }else{
+    html+=logs.slice().reverse().map((l,ri)=>{
+      const i=logs.length-1-ri;
+      const lKm=l.km||0,lOre=l.ore||0,lTot=lKm+(lOre*KM_PER_HOUR);
+      const lDelta=lTot-refKm;
+      const fmtD=l.date?new Date(l.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}):'N/D';
+      return'<div class="kmh-entry"><span class="ke-date"><i class="ti ti-calendar-event"></i>'+fmtD+'</span>'
+        +'<span><i class="ti ti-road" style="font-size:13px"></i> '+lKm.toLocaleString('it-IT')+' km</span>'
+        +'<span><i class="ti ti-clock-hour-4" style="font-size:13px"></i> '+lOre+' ore</span>'
+        +'<span><i class="ti ti-arrows-right-left" style="font-size:13px"></i> Tot: '+lTot.toLocaleString('it-IT')+' km eq.</span>'
+        +'<span style="font-weight:600;color:'+(lDelta>0?'var(--danger)':'var(--accent)')+'">Δ '+(lDelta>=0?'+':'')+lDelta.toLocaleString('it-IT')+' km</span>'
+        +'<span class="ke-del" onclick="delKmLog('+i+')"><i class="ti ti-trash" style="font-size:12px"></i></span>'
+        +'</div>';
+    }).join('');
+  }
+  return html;
+}
+
+async function addKmLog(){
+  const date=document.getElementById('klDate').value;
+  const km=parseInt(document.getElementById('klKm').value)||0;
+  const ore=parseInt(document.getElementById('klOre').value)||0;
+  if(!date){alert('Inserisci la data.');return}
+  if(!km&&!ore){alert('Inserisci almeno km o ore.');return}
+  const data=gd(curV);
+  data.kmLogs.push({date,km,ore,savedAt:new Date().toLocaleString('it-IT')});
+  vehData[docId(curV)]=data;
+  await saveVehicleDataNow(curV);
+  renderSheet();toast('Km/Ore registrati');
+}
+
+async function delKmLog(i){
+  if(!confirm('Eliminare questo caricamento?'))return;
+  const data=gd(curV);data.kmLogs.splice(i,1);
+  vehData[docId(curV)]=data;
+  await saveVehicleDataNow(curV);renderSheet();toast('Caricamento eliminato');
+}
+
+/* ---- TAB: SCHEDA VEICOLO ---- */
+function rVehicleNotes(){
+  const data=gd(curV),notes=data.vehicleNotes||'';
+  return'<div class="vnotes-wrap">'
+    +'<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="ti ti-notes" style="color:var(--accent);font-size:16px"></i>Scheda veicolo — '+curV+'</div>'
+    +'<textarea id="vnText" placeholder="Inserisci informazioni sul veicolo:\n• Targa\n• Anno immatricolazione\n• Tipo olio consigliato\n• Scadenza assicurazione / revisione\n• Pneumatici (misura)\n• Note particolari..." onchange="saveVNotes()">'+esc(notes)+'</textarea>'
+    +'<div class="vnotes-hint"><i class="ti ti-info-circle" style="font-size:12px;vertical-align:-1px"></i> Le note vengono salvate automaticamente su cloud</div>'
+    +'</div>';
+}
+
+function saveVNotes(){
+  const data=gd(curV);
+  data.vehicleNotes=document.getElementById('vnText').value;
+  sd(curV,data);toast('Scheda salvata');
+}
+
+/* ========== ACTIONS ========== */
 function esc(s){return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;')}
 function swTab(t){curTab=t;renderSheet()}
 function uMeta(){const data=gd(curV);if(!data.draft)data.draft={};data.draft.date=document.getElementById('fd').value;data.draft.km=document.getElementById('fk').value;data.draft.tech=document.getElementById('ft').value;sd(curV,data);toast('Salvato')}
