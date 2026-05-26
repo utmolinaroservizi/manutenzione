@@ -81,9 +81,14 @@ input,select,textarea,button{font-family:var(--font)}
 .vitem .vname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vitem .vbadge{font-size:10px;background:var(--bg2);color:var(--tx3);border-radius:8px;padding:1px 6px}
 .vitem.active .vbadge{background:var(--accentL);color:var(--accent)}
-.vitem .vdel{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--danger);opacity:0;cursor:pointer;padding:2px 4px;border-radius:4px}
-.vitem:hover .vdel{opacity:.5}
-.vitem:hover .vdel:hover{opacity:1;background:var(--dangerL)}
+.vitem .vactions{position:absolute;right:6px;top:50%;transform:translateY(-50%);display:flex;gap:2px;opacity:0}
+.vitem:hover .vactions{opacity:.5}
+.vitem .vact{font-size:12px;cursor:pointer;padding:2px 4px;border-radius:4px}
+.vitem:hover .vact:hover{opacity:1}
+.vitem .vact.vedit{color:var(--accent)}
+.vitem:hover .vact.vedit:hover{background:var(--accentLL);opacity:1}
+.vitem .vact.vdel{color:var(--danger)}
+.vitem:hover .vact.vdel:hover{background:var(--dangerL);opacity:1}
 .add-row{display:flex;gap:4px;padding:0 14px;margin-top:4px}
 .add-row input{flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:12px;background:var(--bg);color:var(--tx)}
 .add-row input:focus{outline:none;border-color:var(--accent)}
@@ -271,9 +276,10 @@ function checkAlerts(){
   if(chips.length){bar.style.display='block';bar.innerHTML=chips.map(c=>'<span class="alert-chip '+c.cls+'" onclick="selV(\''+c.v.replace(/'/g,"\\'")+'\')" title="Vai a '+c.v+'"><i class="ti '+c.icon+'"></i>'+c.text+'</span>').join('')}else{bar.style.display='none'}
 }
 
-function renderV(){document.getElementById('vcnt').textContent=vehs.length;document.getElementById('vlist').innerHTML=vehs.map((v,i)=>{const d=gd(v),sc=(d.sessions||[]).length;return'<div class="vitem'+(curV===v?' active':'')+'" onclick="selV(\''+v.replace(/'/g,"\\'")+'\')">'+'<i class="ti ti-truck vic"></i><span class="vname">'+v+'</span>'+(sc?'<span class="vbadge">'+sc+'</span>':'')+'<span class="vdel" onclick="event.stopPropagation();delV('+i+')"><i class="ti ti-x"></i></span></div>'}).join('')}
+function renderV(){document.getElementById('vcnt').textContent=vehs.length;document.getElementById('vlist').innerHTML=vehs.map((v,i)=>{const d=gd(v),sc=(d.sessions||[]).length;return'<div class="vitem'+(curV===v?' active':'')+'" onclick="selV(\''+v.replace(/'/g,"\\'")+'\')">'+'<i class="ti ti-truck vic"></i><span class="vname">'+v+'</span>'+(sc?'<span class="vbadge">'+sc+'</span>':'')+'<span class="vactions"><span class="vact vedit" onclick="event.stopPropagation();renV('+i+')" title="Rinomina"><i class="ti ti-pencil"></i></span><span class="vact vdel" onclick="event.stopPropagation();delV('+i+')" title="Elimina"><i class="ti ti-x"></i></span></span></div>'}).join('')}
 
 async function addV(){const inp=document.getElementById('newinp'),n=inp.value.trim();if(!n||vehs.includes(n))return;vehs.push(n);inp.value='';await saveVehiclesList();renderV();selV(n);toast(n+' aggiunto')}
+async function renV(i){const old=vehs[i],nn=prompt('Rinomina "'+old+'":',old);if(!nn||!nn.trim()||nn.trim()===old)return;const nv=nn.trim();if(vehs.includes(nv)){alert('Esiste già un mezzo con questo nome.');return}const oldId=docId(old),newId=docId(nv);const data=vehData[oldId]||gd(old);vehData[newId]=data;delete vehData[oldId];try{await db.collection('vehicles').doc(newId).set(data);await db.collection('vehicles').doc(oldId).delete()}catch(e){console.error(e)}vehs[i]=nv;await saveVehiclesList();if(curV===old)curV=nv;renderV();checkAlerts();if(curV===nv)renderSheet();toast(old+' → '+nv)}
 async function delV(i){const v=vehs[i];if(!confirm('Rimuovere '+v+'?'))return;vehs.splice(i,1);try{await db.collection('vehicles').doc(docId(v)).delete()}catch(e){}delete vehData[docId(v)];await saveVehiclesList();if(curV===v){curV=null;showEmpty()}renderV();checkAlerts()}
 function showEmpty(){document.getElementById('emptystate').style.display='';document.getElementById('sheet').style.display='none'}
 function selV(v){curV=v;curTab='form';renderV();renderSheet()}
