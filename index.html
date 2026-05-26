@@ -23,10 +23,10 @@
 body{font-family:var(--font);background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
 ::selection{background:var(--accentL);color:var(--accent)}
 input,select,textarea,button{font-family:var(--font)}
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden}
-.login-bg{position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,#4DAB3D 0%,transparent 55%),radial-gradient(circle at 85% 90%,#2D6A21 0%,transparent 50%);opacity:.07;pointer-events:none}
-.login-pattern{position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(45deg,transparent,transparent 38px,#4DAB3D 38px,#4DAB3D 39px)}
-.login-card{position:relative;background:var(--bg3);border:1px solid var(--border);border-radius:18px;padding:44px 44px 36px;width:420px;max-width:92vw;box-shadow:0 1px 3px rgba(40,60,40,0.04),0 12px 40px rgba(40,60,40,0.08)}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#3D8B2E 0%,#4DAB3D 40%,#5BBF4A 70%,#3D8B2E 100%);position:relative;overflow:hidden}
+.login-bg{position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,0.12) 0%,transparent 55%),radial-gradient(circle at 85% 90%,rgba(0,0,0,0.1) 0%,transparent 50%);pointer-events:none}
+.login-pattern{position:absolute;inset:0;opacity:.06;background-image:repeating-linear-gradient(45deg,transparent,transparent 38px,rgba(255,255,255,.3) 38px,rgba(255,255,255,.3) 39px)}
+.login-card{position:relative;background:var(--bg3);border:none;border-radius:18px;padding:44px 44px 36px;width:420px;max-width:92vw;box-shadow:0 4px 6px rgba(0,0,0,0.06),0 20px 50px rgba(0,0,0,0.15)}
 .login-card::before{content:"";position:absolute;top:0;left:24px;right:24px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:0 0 3px 3px}
 .login-logo{text-align:center;margin-bottom:28px}
 .login-logo .brandmark{display:block;width:320px;max-width:100%;height:auto;margin:0 auto 14px}
