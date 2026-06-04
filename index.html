@@ -213,8 +213,8 @@ tbody tr:hover td{background:var(--bg)}
       <div class="tagline">ESCo &middot; Energy Service Company</div>
       <div class="sublabel">Sistema di gestione manutenzione</div>
     </div>
-    <div class="login-field"><label>Nome utente</label><input type="text" id="loginUser" placeholder="Inserisci nome utente" autocomplete="off" spellcheck="false"></div>
-    <div class="login-field"><label>Password</label><input type="password" id="loginPass" placeholder="Inserisci password"></div>
+    <div class="login-field"><label>Email</label><input type="email" id="loginUser" placeholder="nome@molinaroservizi.it" autocomplete="email" inputmode="email"></div>
+    <div class="login-field"><label>Password</label><input type="password" id="loginPass" placeholder="Inserisci password" autocomplete="current-password"></div>
     <button class="login-btn" onclick="doLogin()">Accedi</button>
     <div class="login-err" id="loginErr"></div>
     <div class="login-foot">Accesso riservato al personale autorizzato</div>
@@ -251,16 +251,52 @@ tbody tr:hover td{background:var(--bg)}
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script>
 firebase.initializeApp({apiKey:"AIzaSyD6EApE75D5rDjvct3hJbIrl0DRx291sAQ",authDomain:"manutenzione-molinaro.firebaseapp.com",projectId:"manutenzione-molinaro",storageBucket:"manutenzione-molinaro.firebasestorage.app",messagingSenderId:"1091373320682",appId:"1:1091373320682:web:348dfebedecaad7c43ca93"});
 const db=firebase.firestore();
+const fbAuth=firebase.auth();
 
-const CRED={user:'manutenzione2026',pass:'Molinaro2026'};
-function doLogin(){const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value;if(u===CRED.user&&p===CRED.pass){sessionStorage.setItem('mol_auth','1');showApp()}else{document.getElementById('loginErr').textContent='Credenziali non valide. Riprova.';document.getElementById('loginPass').value=''}}
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!sessionStorage.getItem('mol_auth'))doLogin()});
-function doLogout(){sessionStorage.removeItem('mol_auth');location.reload()}
-function showApp(){document.getElementById('loginScreen').style.display='none';const aw=document.getElementById('appWrap');aw.style.display='flex';aw.style.flexDirection='column';document.getElementById('userLabel').textContent=CRED.user;boot()}
-if(sessionStorage.getItem('mol_auth'))showApp();
+let currentUserName='Utente';
+
+async function doLogin(){
+  const email=document.getElementById('loginUser').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const errEl=document.getElementById('loginErr');
+  if(!email||!pass){errEl.textContent='Inserisci email e password.';return}
+  errEl.textContent='Accesso in corso...';
+  try{
+    await fbAuth.signInWithEmailAndPassword(email,pass);
+    // onAuthStateChanged gestisce il resto
+  }catch(e){
+    const msgs={'auth/invalid-credential':'Email o password non corretti.','auth/user-not-found':'Nessun account con questa email.','auth/wrong-password':'Password non corretta.','auth/too-many-requests':'Troppi tentativi. Riprova tra qualche minuto.','auth/invalid-email':'Formato email non valido.','auth/network-request-failed':'Errore di rete. Controlla la connessione.'};
+    errEl.textContent=msgs[e.code]||'Errore di accesso. Riprova.';
+    document.getElementById('loginPass').value='';
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginScreen').style.display!=='none')doLogin()});
+
+function doLogout(){fbAuth.signOut().then(()=>location.reload())}
+
+function showApp(userName){
+  currentUserName=userName||'Utente';
+  document.getElementById('loginScreen').style.display='none';
+  const aw=document.getElementById('appWrap');aw.style.display='flex';aw.style.flexDirection='column';
+  document.getElementById('userLabel').textContent=currentUserName;
+  boot();
+}
+
+fbAuth.onAuthStateChanged(async user=>{
+  if(user){
+    // Leggi nome utente da Firestore (collezione utenti, doc con uid)
+    let userName=user.email.split('@')[0];
+    try{
+      const uDoc=await db.collection('utenti').doc(user.uid).get();
+      if(uDoc.exists&&uDoc.data().nome) userName=uDoc.data().nome;
+    }catch(e){/* collezione utenti potrebbe non esistere ancora */}
+    showApp(userName);
+  }
+});
 
 const CK_M=["Olio motore tipo","Filtro olio","Filtro aria","Filtro carburante","Filtro antipolline","Olio cambio","Candele"];
 const CK_I=["Olio freni","Anticongelante","Pompa acqua","Cinghia distribuzione","Cinghia alternatore","Cinghia com. vari"];
@@ -299,12 +335,23 @@ function gd(v){
 }
 function sd(v,data){vehData[docId(v)]=data;saveVehicleData(v)}
 
+/* Helper: trova la sessione più recente per DATA (non per ordine di inserimento) */
+function getLatestSession(sessions){
+  if(!sessions||!sessions.length) return null;
+  return sessions.reduce((latest, s)=>{
+    if(!latest) return s;
+    if(!s.date) return latest;
+    if(!latest.date) return s;
+    return new Date(s.date+'T00:00:00') > new Date(latest.date+'T00:00:00') ? s : latest;
+  }, null);
+}
+
 function toast(msg,type){const t=document.getElementById('toast'),tt=document.getElementById('toastText');tt.textContent=msg||'Salvato';t.className='toast '+(type||'ok')+' show';clearTimeout(toastTm);toastTm=setTimeout(()=>t.classList.remove('show'),2200)}
 function togglePanel(){panelOpen=!panelOpen;document.getElementById('panel').classList.toggle('collapsed',!panelOpen);document.getElementById('panelToggleBtn').style.display=panelOpen?'none':'flex'}
 
 function checkAlerts(){
   const bar=document.getElementById('alertsBar'),chips=[],now=Date.now();
-  vehs.forEach(v=>{const data=gd(v);if(!data.sessions||!data.sessions.length)return;const rem=data.reminder||{type:'months',value:6},last=data.sessions[data.sessions.length-1];
+  vehs.forEach(v=>{const data=gd(v);if(!data.sessions||!data.sessions.length)return;const rem=data.reminder||{type:'months',value:6},last=getLatestSession(data.sessions);
     if(rem.type==='months'&&last.date){const ld=new Date(last.date+'T00:00:00'),dl=ld.getTime()+rem.value*30.44*24*3600*1000,days=Math.round((dl-now)/(24*3600*1000));if(days<0)chips.push({v,cls:'danger',icon:'ti-alert-circle',text:v+': scaduto da '+Math.abs(days)+' gg'});else if(days<=30)chips.push({v,cls:'warn',icon:'ti-bell',text:v+': tagliando tra '+days+' gg'})}
     if(rem.type==='km'&&last.km){const lk=parseInt(last.km),lim=lk+parseInt(rem.value);chips.push({v,cls:'warn',icon:'ti-road',text:v+': prossimo a '+lim.toLocaleString('it-IT')+' km'})}
   });
@@ -337,7 +384,7 @@ function renderSheet(){
   updateRemHint();
 }
 
-function updateRemHint(){const data=gd(curV),rem=data.reminder||{type:'months',value:6},sess=data.sessions||[],el=document.getElementById('remHint');if(!el)return;if(!sess.length){el.textContent='Nessun tagliando registrato';return}const last=sess[sess.length-1];if(rem.type==='months'&&last.date){const ld=new Date(last.date+'T00:00:00'),deadline=new Date(ld.getTime()+rem.value*30.44*24*3600*1000),days=Math.round((deadline.getTime()-Date.now())/(24*3600*1000));if(days<0)el.innerHTML='<span style="color:var(--danger);font-weight:600">Scaduto da '+Math.abs(days)+' giorni!</span>';else if(days<=30)el.innerHTML='<span style="color:var(--warn);font-weight:600">Mancano '+days+' giorni</span>';else el.textContent='Prossimo: '+deadline.toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'})+' ('+days+' giorni)'}else if(rem.type==='km'&&last.km){const target=parseInt(last.km)+parseInt(rem.value);el.textContent='Prossimo tagliando a '+target.toLocaleString('it-IT')+' km.'}else{el.textContent=rem.type==='months'?"Inserisci una data nell'ultimo tagliando":"Inserisci i km nell'ultimo tagliando"}}
+function updateRemHint(){const data=gd(curV),rem=data.reminder||{type:'months',value:6},sess=data.sessions||[],el=document.getElementById('remHint');if(!el)return;if(!sess.length){el.textContent='Nessun tagliando registrato';return}const last=getLatestSession(sess);if(rem.type==='months'&&last.date){const ld=new Date(last.date+'T00:00:00'),deadline=new Date(ld.getTime()+rem.value*30.44*24*3600*1000),days=Math.round((deadline.getTime()-Date.now())/(24*3600*1000));if(days<0)el.innerHTML='<span style="color:var(--danger);font-weight:600">Scaduto da '+Math.abs(days)+' giorni!</span>';else if(days<=30)el.innerHTML='<span style="color:var(--warn);font-weight:600">Mancano '+days+' giorni</span>';else el.textContent='Prossimo: '+deadline.toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'})+' ('+days+' giorni)'}else if(rem.type==='km'&&last.km){const target=parseInt(last.km)+parseInt(rem.value);el.textContent='Prossimo tagliando a '+target.toLocaleString('it-IT')+' km.'}else{el.textContent=rem.type==='months'?"Inserisci una data nell'ultimo tagliando":"Inserisci i km nell'ultimo tagliando"}}
 
 /* ---- TAB: CONTROLLI ---- */
 function rForm(d,done,pct){const data=gd(curV),vnotes=data.vehicleNotes||'';let idx=0,rows='';CATS.forEach(cat=>{rows+='<tr class="cat-row"><td colspan="4"><i class="ti '+cat.ic+'" style="font-size:14px;vertical-align:-2px;margin-right:5px"></i>'+cat.n+'</td></tr>';cat.ck.forEach(c=>{idx++;const val=(d.checks&&d.checks[c])||'',note=(d.notes&&d.notes[c])||'';rows+='<tr><td class="num-td">'+idx+'</td><td>'+c+'</td><td style="text-align:center"><select class="chk-sel'+(val==='ok'?' ok':val==='ko'?' ko':'')+'" onchange="uChk(\''+esc(c)+'\',this)"><option value=""'+(!val?' selected':'')+'>—</option><option value="ok"'+(val==='ok'?' selected':'')+'>&#10003; Fatto</option><option value="ko"'+(val==='ko'?' selected':'')+'>&#10007; Da fare</option></select></td><td><input class="note-in" value="'+esc(note)+'" placeholder="Nota..." onchange="uNote(\''+esc(c)+'\',this)"></td></tr>'})});return'<div class="pbar-wrap"><span class="pbar-label">'+done+'/'+ALL.length+'</span><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div><span class="pbar-pct">'+pct+'%</span></div><div class="tbl-wrap"><table><thead><tr><th style="width:30px">#</th><th>Controllo</th><th style="width:95px;text-align:center">Stato</th><th style="width:200px">Note</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="vnotes-wrap"><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="ti ti-notes" style="color:var(--accent);font-size:16px"></i>Scheda veicolo — '+curV+'</div><textarea id="vnText" placeholder="Inserisci informazioni sul veicolo:\n• Targa\n• Anno immatricolazione\n• Tipo olio consigliato\n• Scadenza assicurazione / revisione\n• Pneumatici (misura)\n• Note particolari..." onchange="saveVNotes()">'+esc(vnotes)+'</textarea><div class="vnotes-hint"><i class="ti ti-info-circle" style="font-size:12px;vertical-align:-1px"></i> Le note vengono salvate automaticamente su cloud</div></div>'}
@@ -354,7 +401,7 @@ function rKmHours(){
   // Determine reference km from last service session
   let refKm=0,refLabel='Nessun tagliando registrato';
   if(sess.length){
-    const last=sess[sess.length-1];
+    const last=getLatestSession(sess);
     if(last.km)refKm=parseInt(last.km);
     refLabel='Km al tagliando: '+refKm.toLocaleString('it-IT')+' km'+(last.date?' ('+new Date(last.date+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'})+')':'');
   }
